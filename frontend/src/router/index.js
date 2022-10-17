@@ -25,7 +25,17 @@ const router = createRouter({
         },
       ],
       // 
-    }
+    },
+    {
+      path:'/courses/',
+      children : [
+        {
+          path:'list',
+          name:'course-list',
+          component : () => import('../views/courses/CourseList.vue')
+        },
+      ]
+    },
   ]
 })
 
