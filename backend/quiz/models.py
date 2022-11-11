@@ -9,10 +9,7 @@ from django.core.validators import (
 )
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
-from django.utils.encoding import python_2_unicode_compatible
 from django.conf import settings
-
-from model_utils.managers import InheritanceManager
 
 
 class CategoryManager(models.Manager):
@@ -25,7 +22,6 @@ class CategoryManager(models.Manager):
         return new_category
 
 
-@python_2_unicode_compatible
 class Category(models.Model):
 
     category = models.CharField(
@@ -43,7 +39,6 @@ class Category(models.Model):
         return self.category
 
 
-@python_2_unicode_compatible
 class SubCategory(models.Model):
 
     sub_category = models.CharField(
@@ -63,8 +58,6 @@ class SubCategory(models.Model):
     def __str__(self):
         return self.sub_category + " (" + self.category.category + ")"
 
-
-@python_2_unicode_compatible
 class Quiz(models.Model):
 
     title = models.CharField(
@@ -372,7 +365,6 @@ class Sitting(models.Model):
     """
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("User"), on_delete=models.CASCADE)
-
     quiz = models.ForeignKey(Quiz, verbose_name=_("Quiz"), on_delete=models.CASCADE)
 
     question_order = models.CharField(
@@ -540,8 +532,6 @@ class Sitting(models.Model):
         total = self.get_max_score
         return answered, total
 
-
-@python_2_unicode_compatible
 class Question(models.Model):
     """
     Base class for all question types.
@@ -581,8 +571,6 @@ class Question(models.Model):
                                                "after the question has "
                                                "been answered."),
                                    verbose_name=_('Explanation'))
-
-    objects = InheritanceManager()
 
     class Meta:
         verbose_name = _("Question")

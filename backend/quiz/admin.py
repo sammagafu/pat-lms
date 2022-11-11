@@ -6,7 +6,6 @@ from django.utils.translation import ugettext_lazy as _
 from .models import Quiz, Category, SubCategory, Progress, Question
 from multichoice.models import MCQuestion, Answer
 from true_false.models import TF_Question
-from essay.models import Essay_Question
 
 
 class AnswerInline(admin.TabularInline):
@@ -26,7 +25,7 @@ class QuizAdminForm(forms.ModelForm):
         exclude = []
 
     questions = forms.ModelMultipleChoiceField(
-        queryset=Question.objects.all().select_subclasses(),
+        queryset=Question.objects.all(),
         required=False,
         label=_("Questions"),
         widget=FilteredSelectMultiple(
@@ -37,7 +36,7 @@ class QuizAdminForm(forms.ModelForm):
         super(QuizAdminForm, self).__init__(*args, **kwargs)
         if self.instance.pk:
             self.fields['questions'].initial =\
-                self.instance.question_set.all().select_subclasses()
+                self.instance.question_set.all()
 
     def save(self, commit=True):
         quiz = super(QuizAdminForm, self).save(commit=False)
@@ -95,17 +94,10 @@ class TFQuestionAdmin(admin.ModelAdmin):
     filter_horizontal = ('quiz',)
 
 
-class EssayQuestionAdmin(admin.ModelAdmin):
-    list_display = ('content', 'category', )
-    list_filter = ('category',)
-    fields = ('content', 'category', 'sub_category', 'quiz', 'explanation', )
-    search_fields = ('content', 'explanation')
-    filter_horizontal = ('quiz',)
 
 admin.site.register(Quiz, QuizAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(SubCategory, SubCategoryAdmin)
 admin.site.register(MCQuestion, MCQuestionAdmin)
 admin.site.register(Progress, ProgressAdmin)
-admin.site.register(TF_Question, TFQuestionAdmin)
-admin.site.register(Essay_Question, EssayQuestionAdmin)
+admin.site.register(TF_Question, TFQuestionAdmin)   
