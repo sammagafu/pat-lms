@@ -56,7 +56,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=254, unique=True)
-    full_name = models.CharField(verbose_name="First name",max_length=254, null=False, blank=True)
+    full_name = models.CharField(verbose_name="Full name",max_length=254, null=False, blank=True)
     phone = models.CharField(verbose_name="Phone Number",max_length=14, validators=[RegexValidator(r'^(\+\d{1,3})?,?\s?\d{8,13}')],unique=True,help_text="Example +255714112233",null=False,blank=False)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
@@ -93,9 +93,9 @@ class User(AbstractBaseUser, PermissionsMixin):
             return 'http://api.pediatrics.or.tz' + self.avatar.url
         return ''
 
-    def save(self,*args, **kwargs):
-        if self.typeofmember == "Ordinary Member":
-            self.memberId = "pat-od-"+ self.id
-        else:
-            self.memberId = "pat-as-"+ str(random.randint(0,1000))
-        super(User,self).save()
+    # def save(self,*args, **kwargs):
+    #     if self.typeofmember == "Ordinary Member":
+    #         self.memberId = "pat-od-"+ self.id
+    #     else:
+    #         self.memberId = "pat-as-"+ str(random.randint(0,1000))
+    #     super(User,self).save()
