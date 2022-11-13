@@ -50,6 +50,14 @@ export const userStore = defineStore({
           'mctnumber': response.data.mctnumber,
           'avatar': response.data.avatar,
         })
+        localStorage.setItem('email', response.data.email)
+        localStorage.setItem('userID', response.data.pk)
+        localStorage.setItem('full_name', response.data.full_name)
+        localStorage.setItem('phone', response.data.phone)
+        localStorage.setItem('is_student', response.data.is_student)
+        localStorage.setItem('is_tuitor', response.data.is_tuitor)
+        localStorage.setItem('mctnumber', response.data.mctnumber)
+        localStorage.setItem('avatar', response.data.avatar)
       }).catch(error => {
         console.log(error)
       })

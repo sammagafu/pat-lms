@@ -88,8 +88,8 @@ export default {
       }).catch(error => {
         console.log(error);
       })
-
       userstore.getUserData()
+      
       router.push({name:'home'})
     }
 
