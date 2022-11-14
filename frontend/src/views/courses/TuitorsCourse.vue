@@ -34,15 +34,17 @@
 
                 <tr v-for="(course, pk) in course" :key="pk">
                     <td class="p-2 whitespace-nowrap">
-                        <div class="flex items-center">
+                        <router-link :to="{name:'my-course-detail',params:{slug:course.slug} }">
+                            <div class="flex items-center">
                             <div class="h-auto w-48">
-                                <img class="" :src="course.cover" alt="Alex Shatov">
+                                <img class="" :src="course.cover" :alt="course.name">
                             </div>
                         </div>
+                        </router-link>
                     </td>
                     <td class="p-2 whitespace-nowrap">
                         <div class="text-left">
-                            <p>{{ course.name }}</p>
+                            <p><router-link :to="{name:'my-course-detail',params:{slug:course.slug} }">{{ course.name }}</router-link></p>
                             <p>{{ course.description }}</p>
                         </div>
                     </td>
@@ -63,8 +65,7 @@
                         </div>
                     </td>
                     <td class="p-2 whitespace-nowrap">
-                        <span
-                            class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">Add Lessons</span>
+                       
                         <span
                             class="bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">Edit Course</span>
                         <span
@@ -98,7 +99,12 @@ export default {
                     console.log(error);
                 });
         })
-        return { course, }
+
+        function navigateTo(pk) {
+           console.log(pk);
+        }
+        
+        return { course, navigateTo}
     }
 
 }

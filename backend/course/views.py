@@ -1,6 +1,8 @@
 from rest_framework import generics,filters
-from . models import Course
-from .serializers import CourseSerializers
+from . models import Course,Lesson
+from .serializers import CourseSerializers,LessonSerializers
+from rest_framework.permissions import AllowAny,IsAuthenticated
+
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -8,9 +10,26 @@ from django_filters.rest_framework import DjangoFilterBackend
 class CourseListCreate(generics.ListCreateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializers
-    filter_backends = [DjangoFilterBackend,filters.OrderingFilter,filters.SearchFilter]
-    # filterset_fields = ['is_published', 'courseprice','pub_date']
-    # ordering_fields = ['pub_date','courseprice']
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+class CourseRetrieve(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializers
+    lookup_field = "slug"
+
+
+class LeasonListCreate(generics.ListCreateAPIView):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializers
+
+
+class LessonRetrieve(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Lesson.objects.all()
+    serializer_class = LessonSerializers
+
+
+
+
+    

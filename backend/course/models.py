@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
 from django.utils import timezone
+import datetime
 
 # Create your models here.
 class Course(models.Model):
@@ -14,8 +15,7 @@ class Course(models.Model):
     slug = models.SlugField(_("Slug"),editable=False,unique=True)
     is_published = models.BooleanField(_("published"),default=False)
     courseprice = models.DecimalField(_("Course Price"), max_digits=10, decimal_places=2,default=10000)
-    pub_date = models.DateField(blank=True,null=True)
-
+    pub_date = models.DateField(default=datetime.date.today)
     author = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
@@ -23,9 +23,10 @@ class Course(models.Model):
         verbose_name='Course Author'
     )
 
+    def __str__(self):
+        return self.name
+
     def save(self, *args, **kwargs):
-        if not self.id:
-            self.pub_date = timezone.now()
         if not self.slug:
             self.slug = slugify(self.name)
         self.slug = slugify(self.name)
@@ -46,6 +47,7 @@ class CourseVideo(models.Model):
     title = models.CharField(max_length=200, default="title")
     video = models.URLField()
 
+# add either slide, documents, materials
 
 
 

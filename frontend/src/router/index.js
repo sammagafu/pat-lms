@@ -30,6 +30,11 @@ const router = createRouter({
               component : () => import('@/views/courses/TuitorsCourse.vue')
             },
             {
+              path:'mycourses/:slug',
+              name:'my-course-detail',
+              component : () => import('@/views/courses/TuitorsCourseDetail.vue')
+            },
+            {
               path:'create',
               name:'course-create',
               component : () => import('@/views/courses/CourseCreate.vue')
