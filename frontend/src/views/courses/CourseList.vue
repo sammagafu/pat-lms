@@ -84,8 +84,30 @@
                 </div>
             </div>
         </div>
-
-
-
     </div>
 </template>
+
+
+<script>
+import axios from 'axios';
+import { ref,onMounted } from 'vue';
+import { userStore, pagesInteractivity } from '@/stores/index'
+export default {
+    setup(){
+        const course = ref([])
+
+        onMounted(() => {
+            axios.get('course/')
+                .then(response => {
+                    course.value = response.data;
+                    console.log(response.data)
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        })
+        return {course,}
+    }
+
+}
+</script>

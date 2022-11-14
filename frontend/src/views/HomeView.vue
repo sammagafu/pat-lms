@@ -1,5 +1,6 @@
 <template>
     <div class="py-16">
+        <h2 class="py-4 font-bold dark:text-gray-400 text-3xl">Welcome {{}}</h2>
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 dark:text-gray-100">
 
             <div class="card rounded-lg shadow py-9 px-8 dark:bg-slate-900">

@@ -90,7 +90,10 @@ export default {
     };
   
   function regusterUsers (){
-    const headers = { 'Content-Type': 'multipart/form-data' };
+    const headers = { 
+      'Content-Type': 'multipart/form-data',
+  
+  };
     const formdata = new FormData();
     formdata.append('avatar',avatar.value)
     formdata.append('email',email.value)

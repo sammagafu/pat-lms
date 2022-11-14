@@ -20,9 +20,19 @@ const router = createRouter({
           path:'/courses/',
           children : [
             {
-              path:'list',
+              path:'',
               name:'course-list',
-              component : () => import('../views/courses/CourseList.vue')
+              component : () => import('@/views/courses/CourseList.vue')
+            },
+            {
+              path:'mycourses',
+              name:'my-course-list',
+              component : () => import('@/views/courses/TuitorsCourse.vue')
+            },
+            {
+              path:'create',
+              name:'course-create',
+              component : () => import('@/views/courses/CourseCreate.vue')
             },
           ]
         },
