@@ -32,6 +32,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         validated_data['password']
         )
         user.phone = validated_data['phone']
+        user.full_name = validated_data['full_name  ']
         user.is_student = validated_data['is_student']
         user.is_tuitor = validated_data['is_tuitor']
         user.mctnumber = validated_data['mctnumber']

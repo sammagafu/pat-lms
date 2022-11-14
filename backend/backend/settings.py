@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'multichoice',
     'true_false',
     'quiz',
+    'coursecategory',
 
 
     # restframework
