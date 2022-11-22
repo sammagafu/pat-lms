@@ -7,6 +7,7 @@ class LessonSerializers(serializers.ModelSerializer):
         fields = ('title','order','course','content')
 
 class CourseSerializers(serializers.ModelSerializer):
+    course = LessonSerializers(many=True, read_only=True)
     class Meta:
         model = Course
-        fields = ('author','name','cover','description','is_published','courseprice','pub_date','slug')
+        fields = ('author','name','cover','description','is_published','courseprice','pub_date','slug','course')

@@ -37,7 +37,7 @@ class Lesson(models.Model):
     """ lesson model """
     title = models.CharField(max_length=200, default="title")
     order = models.IntegerField(default=0)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE,related_name="course")
     content = models.TextField()
 
 class CourseVideo(models.Model):
