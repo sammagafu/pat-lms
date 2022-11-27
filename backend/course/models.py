@@ -37,17 +37,22 @@ class Lesson(models.Model):
     """ lesson model """
     title = models.CharField(max_length=200, default="title")
     order = models.IntegerField(default=0)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE,related_name="course")
+    course = models.ForeignKey(Course, on_delete=models.CASCADE,related_name="lesson")
     content = models.TextField()
 
 class CourseVideo(models.Model):
     """ lesson model """
-    lesson = models.ForeignKey(Lesson, verbose_name=_(""), on_delete=models.CASCADE)
+    lesson = models.ForeignKey(Lesson, verbose_name=_("Course Lesson"), on_delete=models.CASCADE)
     order = models.IntegerField(default=0)
     title = models.CharField(max_length=200, default="title")
     video = models.URLField()
 
-# add either slide, documents, materials
+
+class CourseDocuments(models.Model):
+    lesson = models.ForeignKey(Lesson, verbose_name=_("Course Lesson"), on_delete=models.CASCADE)
+    document = models.FileField(_("Supportind Document"), upload_to=None, max_length=100)
+
+
 
 
 
