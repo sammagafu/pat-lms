@@ -42,18 +42,15 @@ class Lesson(models.Model):
 
 class CourseVideo(models.Model):
     """ lesson model """
-    lesson = models.ForeignKey(Lesson, verbose_name=_("Course Lesson"), on_delete=models.CASCADE)
+    lesson = models.OneToOneField(Lesson, verbose_name=_("Course Lesson"), on_delete=models.CASCADE,related_name="courseVideo")
     order = models.IntegerField(default=0)
     title = models.CharField(max_length=200, default="title")
     video = models.URLField()
 
 
 class CourseDocuments(models.Model):
-    lesson = models.ForeignKey(Lesson, verbose_name=_("Course Lesson"), on_delete=models.CASCADE)
+    lesson = models.OneToOneField(Lesson, verbose_name=_("Course Lesson"), on_delete=models.CASCADE,related_name="courseDocument")
     document = models.FileField(_("Supportind Document"), upload_to=None, max_length=100)
-
-
-
 
 
 class CourseEnrollment(models.Model):
