@@ -10,12 +10,11 @@ class CourseVideoSerializer(serializers.ModelSerializer):
         model = CourseVideo
         fields = ('title','video')
 class LessonSerializers(serializers.ModelSerializer):
-    courseDocument = LessonDocument(many=True,read_only=True)
-    courseVideo = CourseVideoSerializer(many=True,read_only=True)
+    courseDocument = LessonDocument(read_only=True)
+    courseVideo = CourseVideoSerializer(read_only=True)
     class Meta:
         model = Lesson
-        fields = ('title','order','content','courseDocument','courseVideo')
-        write_only_fields = ('course')
+        fields = ('title','order','content','courseDocument','courseVideo','course')
 
 class CourseSerializers(serializers.ModelSerializer):
     lesson = LessonSerializers(many=True, read_only=True)

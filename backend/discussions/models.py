@@ -1,9 +1,12 @@
 from django.db import models
 from quiz.models import Category
 from django.conf import settings
+from django.utils.translation import gettext_lazy as _
+
 
 # Create your models here.
 class Topic(models.Model):
+    course = models.ForeignKey("course.Course", verbose_name=_(""), on_delete=models.CASCADE)
     topic = models.CharField(max_length=250,blank=False)
     content = models.TextField(blank=False)
     category = models.ForeignKey(Category, on_delete=models.CASCADE,related_name="course_category")

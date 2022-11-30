@@ -8,12 +8,13 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 # Create your views here.
 class CourseListCreate(generics.ListCreateAPIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,]
 
     queryset = Course.objects.all()
     serializer_class = CourseSerializers
 
     def perform_create(self, serializer):
+        print("this is working")
         serializer.save(author=self.request.user)
 
 class CourseRetrieve(generics.RetrieveUpdateDestroyAPIView):

@@ -10,7 +10,7 @@ import datetime
 class Course(models.Model):
     """ course model """
     name = models.CharField(null=False, max_length=30, default='online course')
-    cover = ResizedImageField(upload_to = 'profile/images/%Y/%m/%d',verbose_name=_("Profile Image"),size=[600, 400], crop=['middle', 'center'],default='default.jpg')
+    cover = ResizedImageField(upload_to = 'profile/images/%Y/%m/%d',verbose_name=_("Course Cover Image"),size=[600, 400], crop=['middle', 'center'],default='default.jpg')
     description = models.CharField(max_length=1000)
     slug = models.SlugField(_("Slug"),editable=False,unique=True)
     is_published = models.BooleanField(_("published"),default=False)
@@ -38,7 +38,10 @@ class Lesson(models.Model):
     title = models.CharField(max_length=200, default="title")
     order = models.IntegerField(default=0)
     course = models.ForeignKey(Course, on_delete=models.CASCADE,related_name="lesson")
-    content = models.TextField()
+    content = models.TextField(_("What will they learn"))
+
+    def __str__(self):
+        return self.title
 
 class CourseVideo(models.Model):
     """ lesson model """
