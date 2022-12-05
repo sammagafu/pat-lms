@@ -9,12 +9,13 @@ import datetime
 # Create your models here.
 class Course(models.Model):
     """ course model """
-    name = models.CharField(null=False, max_length=30, default='online course')
+    name = models.CharField(null=False, max_length=180, default='online course')
     cover = ResizedImageField(upload_to = 'profile/images/%Y/%m/%d',verbose_name=_("Course Cover Image"),size=[600, 400], crop=['middle', 'center'],default='default.jpg')
-    description = models.CharField(max_length=1000)
+    description = models.TextField()
     slug = models.SlugField(_("Slug"),editable=False,unique=True)
     is_published = models.BooleanField(_("published"),default=False)
     courseprice = models.DecimalField(_("Course Price"), max_digits=10, decimal_places=2,default=10000)
+    points = models.IntegerField(_("GPD Points"),default=5)
     pub_date = models.DateField(default=datetime.date.today)
     author = models.ForeignKey(
         get_user_model(),
@@ -48,18 +49,26 @@ class CourseVideo(models.Model):
     lesson = models.OneToOneField(Lesson, verbose_name=_("Course Lesson"), on_delete=models.CASCADE,related_name="courseVideo")
     order = models.IntegerField(default=0)
     title = models.CharField(max_length=200, default="title")
-    video = models.URLField()
+    video = models.TextField("Embed video Url")
 
 
 class CourseDocuments(models.Model):
+    title = models.CharField(max_length=200, default="document name")
     lesson = models.OneToOneField(Lesson, verbose_name=_("Course Lesson"), on_delete=models.CASCADE,related_name="courseDocument")
     document = models.FileField(_("Supportind Document"), upload_to=None, max_length=100)
 
 
 class CourseEnrollment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE,related_name="enrolledcourse")
-    author = models.ForeignKey(get_user_model(),on_delete=models.CASCADE,related_name='student',verbose_name='Course Author')
+    student = models.ForeignKey(get_user_model(),on_delete=models.CASCADE,related_name='student',verbose_name='Course Author')
     is_paid = models.BooleanField(_("Paid Course"),default=False)
 
     class Meta:
-        unique_together = ('course', 'author',)
+        unique_together = ('course', 'student',)
+
+    def is_paid(self):
+        return self.is_paid
+
+
+class PaymentDetails(models.Model):
+    pass

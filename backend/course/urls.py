@@ -7,4 +7,5 @@ urlpatterns = [
     path('<str:slug>',views.CourseRetrieve.as_view(),name="detail"),
     path('lesson/create/',views.LeasonListCreate.as_view(),name="create-course"),
     path('lesson/<int:pk>',views.LessonRetrieve.as_view(),name="create-course"),
+    path('enrolled/',views.EnrolledCourse.as_view(),name="enrolled"),
 ]

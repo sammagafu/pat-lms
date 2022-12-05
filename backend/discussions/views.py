@@ -1,16 +1,28 @@
 from django.shortcuts import render
-from django.contrib.auth.models import User
 from .models import Topic, Reply
-from django.contrib.auth.decorators import login_required
-from .forms import TopicForm
+from django.shortcuts import get_object_or_404
+from rest_framework.permissions import AllowAny,IsAuthenticated
+from . serializers import TopicSerializer
+from rest_framework import generics
+from rest_framework.response import Response
+
+
 # Create your views here.
-@login_required
-def index(request):
-    if request.method == 'POST':
-        topic_form = TopicForm(request.POST)
-        if form.is_valid():
-            return HttpResponseRedirect('discussions')
-    else:
-        topics = Topic.objects.all()
-        form = TopicForm()
-    return render(request,'discussion/index.html',{'form':form,'topics':topics})
+
+class CourseListView(generics.ListCreateAPIView):
+    queryset = Topic.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = TopicSerializer
+
+    def list(self, request):
+        queryset = self.get_queryset()
+        serializer = TopicSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+class CourseDetailView(generics.RetrieveDestroyAPIView):
+    queryset = Topic.objects.all()
+    serializer_class = TopicSerializer
+
+
+# class EnrollCourse(generics.ListCreateAPIView):
+#     queryset = E

@@ -1,10 +1,11 @@
 from rest_framework import serializers
-from . models import Course,Lesson,CourseDocuments,CourseVideo
+from . models import Course,Lesson,CourseDocuments,CourseVideo,CourseEnrollment
+from discussions.serializers import TopicSerializer
 
 class LessonDocument(serializers.ModelSerializer):
     class Meta:
         model = CourseDocuments
-        fields = ('lesson','document')
+        fields = ('lesson','title','document')
 class CourseVideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseVideo
@@ -18,6 +19,12 @@ class LessonSerializers(serializers.ModelSerializer):
 
 class CourseSerializers(serializers.ModelSerializer):
     lesson = LessonSerializers(many=True, read_only=True)
+    course_topic = TopicSerializer(many=True, read_only=True)
     class Meta:
         model = Course
-        fields = ('pk','author','name','cover','description','is_published','courseprice','pub_date','slug','lesson')
+        fields = ('pk','author','name','points','cover','description','is_published','courseprice','pub_date','slug','lesson','course_topic')
+
+class EnrolledCourseSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = CourseEnrollment
+        fields = ("course","student","is_paid")
