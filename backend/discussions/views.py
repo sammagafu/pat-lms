@@ -14,10 +14,13 @@ class CourseListView(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = TopicSerializer
 
-    def list(self, request):
-        queryset = self.get_queryset()
-        serializer = TopicSerializer(queryset, many=True)
-        return Response(serializer.data)
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def get_queryset(self, *args, **kwargs):
+        return super().get_queryset(*args, **kwargs).filter(
+            user=self.request.user
+        )
 
 class CourseDetailView(generics.RetrieveDestroyAPIView):
     queryset = Topic.objects.all()

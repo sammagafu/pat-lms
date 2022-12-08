@@ -10,7 +10,7 @@ class Topic(models.Model):
     topic = models.CharField(max_length=250,blank=False)
     content = models.TextField(blank=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name="topic_starter")
-    slug = models.SlugField(_("URL slug"), unique=True)
+    slug = models.SlugField(_("URL slug"), unique=True,editable=False)
 
     def __str__(self):
         return self.topic
@@ -21,7 +21,7 @@ class Topic(models.Model):
         return super().save()
 
 class Reply(models.Model):
-    topic = models.ForeignKey(Topic, on_delete=models.CASCADE,related_name="reply_topic")
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE,related_name="replies")
     repy = models.TextField(blank=False)
     answered = models.BooleanField(default=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name="repying")

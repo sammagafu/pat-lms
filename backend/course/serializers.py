@@ -22,9 +22,11 @@ class CourseSerializers(serializers.ModelSerializer):
     course_topic = TopicSerializer(many=True, read_only=True)
     class Meta:
         model = Course
-        fields = ('pk','author','name','points','cover','description','is_published','courseprice','pub_date','slug','lesson','course_topic')
+        fields = ('pk','author','name','introvideo','points','cover','description','is_published','courseprice','pub_date','slug','lesson','course_topic')
 
 class EnrolledCourseSerializers(serializers.ModelSerializer):
     class Meta:
+        depth=2
         model = CourseEnrollment
-        fields = ("course","student","is_paid")
+        fields = ('course','is_paid')
+        read_only_fields = ["student"]

@@ -17,6 +17,7 @@ class Course(models.Model):
     courseprice = models.DecimalField(_("Course Price"), max_digits=10, decimal_places=2,default=10000)
     points = models.IntegerField(_("GPD Points"),default=5)
     pub_date = models.DateField(default=datetime.date.today)
+    introvideo = models.TextField(default='<iframe width="560" height="315" src="https://www.youtube.com/embed/ddsebipcm7M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',null=True,blank=True)
     author = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
@@ -51,11 +52,17 @@ class CourseVideo(models.Model):
     title = models.CharField(max_length=200, default="title")
     video = models.TextField("Embed video Url")
 
+    def __str__(self):
+        return self.lesson.title
+
 
 class CourseDocuments(models.Model):
     title = models.CharField(max_length=200, default="document name")
     lesson = models.OneToOneField(Lesson, verbose_name=_("Course Lesson"), on_delete=models.CASCADE,related_name="courseDocument")
     document = models.FileField(_("Supportind Document"), upload_to=None, max_length=100)
+
+    def __str__(self):
+        return self.title
 
 
 class CourseEnrollment(models.Model):
@@ -66,8 +73,8 @@ class CourseEnrollment(models.Model):
     class Meta:
         unique_together = ('course', 'student',)
 
-    def is_paid(self):
-        return self.is_paid
+    def __str__(self):
+        return self.course.name
 
 
 class PaymentDetails(models.Model):

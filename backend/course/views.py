@@ -35,13 +35,12 @@ class EnrolledCourse(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated,]
 
 
-    def perform_create(self,serializer):
+    def perform_create(self, serializer):
         serializer.save(student=self.request.user)
 
-    def list(self,request):
-        queryset = self.get_queryset().filter(student=self.request.user)
-        serializer = EnrolledCourseSerializers(queryset, many=True)
-        return Response(serializer.data)
-
+    def get_queryset(self, *args, **kwargs):
+        return super().get_queryset(*args, **kwargs).filter(
+            student=self.request.user
+        )
 
     
