@@ -10,8 +10,9 @@ class ReplySerializer(serializers.ModelSerializer):
 
 class TopicSerializer(serializers.ModelSerializer):
     replies = ReplySerializer(many=True,read_only=True)
+
     class Meta:
         model = Topic
-        fields = ('course','topic','content','replies')
-        read_only_fields = ["user"]
+        fields = ('topic','content','replies')
+        write_only_fields = ('course',"user","slug")
 

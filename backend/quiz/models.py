@@ -18,7 +18,9 @@ class Quiz(models.Model):
         verbose_name=_("Title"),
         max_length=60, blank=False)
 
-    course = models.ForeignKey(Course, verbose_name=_("course"), on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, 
+        verbose_name=_("course"), 
+        on_delete=models.CASCADE)
 
     description = models.TextField(
         verbose_name=_("Description"),
@@ -86,9 +88,9 @@ class Quiz(models.Model):
 
     def save(self, force_insert=False, force_update=False, *args, **kwargs):
 
-        if not self.slug:
-            self.slug = slugify(self.name)
-        self.slug = slugify(self.name)
+        if not self.url:
+            self.url = slugify(self.title)
+        self.url = slugify(self.title)
 
 
         if self.single_attempt is True:
@@ -151,105 +153,6 @@ class Progress(models.Model):
     class Meta:
         verbose_name = _("User Progress")
         verbose_name_plural = _("User progress records")
-
-    # @property
-    # def list_all_cat_scores(self):
-        # """
-        # Returns a dict in which the key is the category name and the item is
-        # a list of three integers.
-
-        # The first is the number of questions correct,
-        # the second is the possible best score,
-        # the third is the percentage correct.
-
-        # The dict will have one key for every category that you have defined
-        # """
-        # score_before = self.score
-        # output = {}
-
-        # for cat in Course.objects.all():
-        #     to_find = re.escape(cat.category) + r",(\d+),(\d+),"
-        #     #  group 1 is score, group 2 is highest possible
-
-        #     match = re.search(to_find, self.score, re.IGNORECASE)
-
-        #     if match:
-        #         score = int(match.group(1))
-        #         possible = int(match.group(2))
-
-        #         try:
-        #             percent = int(round((float(score) / float(possible))
-        #                                 * 100))
-        #         except:
-        #             percent = 0
-
-        #         output[cat.category] = [score, possible, percent]
-
-        #     else:  # if category has not been added yet, add it.
-        #         self.score += cat.category + ",0,0,"
-        #         output[cat.category] = [0, 0]
-
-        # if len(self.score) > len(score_before):
-        #     # If a new category has been added, save changes.
-        #     self.save()
-
-        # return output
-
-    # def update_score(self, question, score_to_add=0, possible_to_add=0):
-    #     """
-    #     Pass in question object, amount to increase score
-    #     and max possible.
-
-    #     Does not return anything.
-    #     """
-    #     category_test = Category.objects.filter(category=question.category)\
-    #                                     .exists()
-
-    #     if any([item is False for item in [category_test,
-    #                                        score_to_add,
-    #                                        possible_to_add,
-    #                                        isinstance(score_to_add, int),
-    #                                        isinstance(possible_to_add, int)]]):
-    #         return _("error"), _("category does not exist or invalid score")
-
-    #     to_find = re.escape(str(question.category)) +\
-    #         r",(?P<score>\d+),(?P<possible>\d+),"
-
-    #     match = re.search(to_find, self.score, re.IGNORECASE)
-
-    #     if match:
-    #         updated_score = int(match.group('score')) + abs(score_to_add)
-    #         updated_possible = int(match.group('possible')) +\
-    #             abs(possible_to_add)
-
-    #         new_score = ",".join(
-    #             [
-    #                 str(question.category),
-    #                 str(updated_score),
-    #                 str(updated_possible), ""
-    #             ])
-
-    #         # swap old score for the new one
-    #         self.score = self.score.replace(match.group(), new_score)
-    #         self.save()
-
-    #     else:
-    #         #  if not present but existing, add with the points passed in
-    #         self.score += ",".join(
-    #             [
-    #                 str(question.category),
-    #                 str(score_to_add),
-    #                 str(possible_to_add),
-    #                 ""
-    #             ])
-    #         self.save()
-
-    # def show_exams(self):
-        """
-        Finds the previous quizzes marked as 'exam papers'.
-        Returns a queryset of complete exams.
-        """
-        # return Sitting.objects.filter(user=self.user, complete=True)
 
 
 class SittingManager(models.Manager):
@@ -495,13 +398,7 @@ class Question(models.Model):
 
     quiz = models.ManyToManyField(Quiz,
                                   verbose_name=_("Quiz"),
-                                  blank=True)
-
-    course = models.ForeignKey("course.Course",
-                                 verbose_name=_("Course"),
-                                 blank=True,
-                                 null=True,
-                                 on_delete=models.CASCADE)
+                                  blank=True,)
 
     figure = models.ImageField(upload_to='uploads/%Y/%m/%d',
                                blank=True,
