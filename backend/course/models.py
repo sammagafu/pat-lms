@@ -8,10 +8,16 @@ import datetime
 
 # Create your models here.
 class Course(models.Model):
+    TypeOFModule = [
+    ('Internal Module', 'Internal Module'),
+    ('Area9 Module', 'Area9 Module'),
+    ('SCORM Module', 'SCORM Module'),
+]
+
     """ course model """
     name = models.CharField(null=False, max_length=180, default='online course')
     cover = ResizedImageField(upload_to = 'profile/images/%Y/%m/%d',verbose_name=_("Course Cover Image"),size=[600, 400], crop=['middle', 'center'],default='default.jpg')
-    description = models.TextField()
+    description = models.TextField(verbose_name="Description")
     slug = models.SlugField(_("Slug"),editable=False,unique=True)
     is_published = models.BooleanField(_("published"),default=False)
     courseprice = models.DecimalField(_("Course Price"), max_digits=10, decimal_places=2,default=10000)
@@ -24,6 +30,7 @@ class Course(models.Model):
         related_name='author',
         verbose_name='Course Author'
     )
+    module = models.CharField(max_length=50,choices=TypeOFModule,default="Internal Module",verbose_name="Type od module")
 
     def __str__(self):
         return self.name
@@ -76,6 +83,9 @@ class CourseEnrollment(models.Model):
     def __str__(self):
         return self.course.name
 
+class AreaNineModule(models.Model):
+    module = models.ForeignKey(Course, verbose_name=_("Module"), on_delete=models.CASCADE)
+    moduleLink = models.URLField(_("Module Link from area 9 or any platform"), max_length=300)
 
 class PaymentDetails(models.Model):
     pass
