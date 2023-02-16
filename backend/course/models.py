@@ -84,8 +84,14 @@ class CourseEnrollment(models.Model):
         return self.course.name
 
 class AreaNineModule(models.Model):
-    module = models.ForeignKey(Course, verbose_name=_("Module"), on_delete=models.CASCADE)
+    module = models.OneToOneField(Course, verbose_name=_("Module"), on_delete=models.CASCADE,related_name="coursemodule")
     moduleLink = models.URLField(_("Module Link from area 9 or any platform"), max_length=300)
+
+    class Meta:
+        verbose_name = "Area Nine Module"
+        verbose_name_plural = "Area Nine Modules"
+
+        
 
 class PaymentDetails(models.Model):
     pass

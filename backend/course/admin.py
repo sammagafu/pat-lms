@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Lesson,Course,CourseDocuments,CourseVideo
+from .models import Lesson,Course,CourseDocuments,CourseVideo,AreaNineModule
 
 # Register your models here.
 class CourseVideoInline(admin.StackedInline):
@@ -12,3 +12,4 @@ class Lesson(admin.ModelAdmin):
     inlines = [CourseDocumentsInline,CourseVideoInline]
 
 admin.site.register(Course)
+admin.site.register(AreaNineModule)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from . models import Course,Lesson,CourseDocuments,CourseVideo,CourseEnrollment
+from . models import Course,Lesson,CourseDocuments,CourseVideo,CourseEnrollment,AreaNineModule
 from discussions.serializers import TopicSerializer
 
 class LessonDocument(serializers.ModelSerializer):
@@ -17,12 +17,18 @@ class LessonSerializers(serializers.ModelSerializer):
         model = Lesson
         fields = ('title','order','content','courseDocument','courseVideo','course')
 
+class AreaNineModule(serializers.ModelSerializer):
+    class Meta:
+        model = AreaNineModule
+        fields = ('module','moduleLink')
+
 class CourseSerializers(serializers.ModelSerializer):
+    coursemodule = AreaNineModule(read_only=True)
     lesson = LessonSerializers(many=True, read_only=True)
     course_topic = TopicSerializer(many=True, read_only=True)
     class Meta:
         model = Course
-        fields = ('pk','author','name','introvideo','points','cover','description','is_published','courseprice','pub_date','slug','lesson','course_topic')
+        fields = ('pk','author','name','introvideo','module','points','cover','description','is_published','courseprice','pub_date','slug','lesson','course_topic','coursemodule')
 
 class EnrolledCourseSerializers(serializers.ModelSerializer):
     class Meta:
